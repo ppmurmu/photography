@@ -1,0 +1,29 @@
+{
+  "siteTitle": "Photography Portfolio",
+  "photographerName": "Your Name Here",
+  "aboutText": "This is a sample 'About Me' section. You can write a short bio, describe your work, or provide contact information here. This text is fully configurable from the config.json file, and you can use basic HTML tags like <br> for line breaks if you wish.",
+  "footerLinks": [
+    {
+      "text": "Albums",
+      "url": "albums.html"
+    },
+    {
+      "text": "About",
+      "url": "#about"
+    }
+  ],
+  "socialLinks": [
+    {
+      "name": "twitter",
+      "url": "https://twitter.com/yourprofile"
+    },
+    {
+      "name": "instagram",
+      "url": "https://instagram.com/yourprofile"
+    },
+    {
+      "name": "email",
+      "url": "mailto:youremail@example.com"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+    "Space": [
+        {
+            "name": "2.jpg",
+            "src": "photos/Space/2.jpg",
+            "caption": "Vela Supernova Remnant, by ESO/TIMER survey"
+        },
+        {
+            "name": "home_1.jpg",
+            "src": "photos/Space/home_1.jpg",
+            "caption": "NGC3324"
+        }
+    ]
+}
