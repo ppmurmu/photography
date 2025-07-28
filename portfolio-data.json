@@ -1,4 +1,31 @@
 {
+    "Nature": [
+        {
+            "name": "2.jpg.jpg",
+            "src": "photos/Nature/2.jpg.jpg",
+            "caption": "2.jpg"
+        },
+        {
+            "name": "3.jpg",
+            "src": "photos/Nature/3.jpg",
+            "caption": "Vizag"
+        },
+        {
+            "name": "4.jpg",
+            "src": "photos/Nature/4.jpg",
+            "caption": "kollimalai kundrugal"
+        },
+        {
+            "name": "gangetic-dolphin.jpg",
+            "src": "photos/Nature/gangetic-dolphin.jpg",
+            "caption": "gangetic-dolphin"
+        },
+        {
+            "name": "home_1.jpg",
+            "src": "photos/Nature/home_1.jpg",
+            "caption": "Kedar range"
+        }
+    ],
     "Space": [
         {
             "name": "2.jpg",

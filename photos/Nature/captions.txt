@@ -1,2 +1,4 @@
 home_1.jpg : Kedar range
 2.jpg : Western ghats
+3.jpg : Vizag
+4.jpg : kollimalai kundrugal
