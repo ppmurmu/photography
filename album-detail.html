@@ -34,8 +34,11 @@
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8 pb-20">
       <header id="album-header" class="mb-12"></header>
-      <!-- Changed grid-cols-3 to grid-cols-4 to match the homepage -->
-      <main id="photo-grid" class="grid grid-cols-4 gap-1"></main>
+      <!-- Responsive Grid: 3 cols on mobile, 4 on tablet, 5 on desktop -->
+      <main
+        id="photo-grid"
+        class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1"
+      ></main>
     </div>
 
     <!-- Footer -->

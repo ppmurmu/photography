@@ -33,8 +33,11 @@
   <body class="text-gray-800">
     <!-- Main Content -->
     <div class="pb-20">
-      <!-- Changed grid-cols-3 to grid-cols-4 to make the grid smaller and fit more images -->
-      <main id="photo-grid" class="grid grid-cols-4"></main>
+      <!-- Responsive Grid: 3 cols on mobile, 4 on tablet, 5 on desktop -->
+      <main
+        id="photo-grid"
+        class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+      ></main>
     </div>
 
     <!-- Footer -->
