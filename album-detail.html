@@ -34,10 +34,10 @@
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8 pb-20">
       <header id="album-header" class="mb-12"></header>
-      <!-- Responsive Grid: 3 cols on mobile, 4 on tablet, 5 on desktop -->
+      <!-- Responsive Grid: 2 cols on mobile, 3 on small tablet, 4 on tablet, 5 on desktop -->
       <main
         id="photo-grid"
-        class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1"
       ></main>
     </div>
 
@@ -121,32 +121,41 @@
       };
 
       function applyConfig(config, albumName) {
-        document.title = `${albumName} - ${config.siteTitle}`;
+        // Add fallback text in case config properties are missing
+        document.title = `${albumName} - ${config.siteTitle || "Portfolio"}`;
         document.getElementById("photographer-name").textContent =
-          config.photographerName;
+          config.photographerName || "";
+
         const footerLinksContainer = document.getElementById("footer-links");
         footerLinksContainer.innerHTML = "";
-        config.footerLinks.forEach((link) => {
-          const a = document.createElement("a");
-          a.href = link.url;
-          a.textContent = link.text;
-          a.className = "text-gray-600 hover:text-gray-900 transition-colors";
-          if (link.url === "#about") a.dataset.action = "open-about";
-          footerLinksContainer.appendChild(a);
-        });
+        // Check if footerLinks is an array before looping to prevent errors
+        if (Array.isArray(config.footerLinks)) {
+          config.footerLinks.forEach((link) => {
+            const a = document.createElement("a");
+            a.href = link.url;
+            a.textContent = link.text;
+            a.className = "text-gray-600 hover:text-gray-900 transition-colors";
+            if (link.url === "#about") a.dataset.action = "open-about";
+            footerLinksContainer.appendChild(a);
+          });
+        }
+
         const socialLinksContainer = document.getElementById("social-links");
         socialLinksContainer.innerHTML = "";
-        config.socialLinks.forEach((link) => {
-          const a = document.createElement("a");
-          a.href = link.url;
-          a.title = link.name;
-          a.className = "text-gray-500 hover:text-gray-800 transition-colors";
-          a.innerHTML = socialIconMap[link.name] || "";
-          if (link.name !== "email") a.target = "_blank";
-          socialLinksContainer.appendChild(a);
-        });
+        // Check if socialLinks is an array before looping
+        if (Array.isArray(config.socialLinks)) {
+          config.socialLinks.forEach((link) => {
+            const a = document.createElement("a");
+            a.href = link.url;
+            a.title = link.name;
+            a.className = "text-gray-500 hover:text-gray-800 transition-colors";
+            a.innerHTML = socialIconMap[link.name] || "";
+            if (link.name !== "email") a.target = "_blank";
+            socialLinksContainer.appendChild(a);
+          });
+        }
         document.getElementById("about-modal-content").innerHTML =
-          config.aboutText;
+          config.aboutText || "";
       }
 
       function populateGrid(photos) {
