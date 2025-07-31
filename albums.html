@@ -6,15 +6,9 @@
     <title>Loading...</title>
     <!-- Title will be set from config.json -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- The Google Fonts link will be dynamically added here -->
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #f9fafb;
-      }
+      /* The font-family will be dynamically set here */
       .modal-open {
         overflow: hidden;
       }
@@ -52,11 +46,7 @@
       <div
         class="container mx-auto px-4 py-3 flex justify-between items-center text-sm"
       >
-        <!-- Left side: Social Links -->
-        <div id="social-links" class="flex items-center space-x-4">
-          <!-- Social icons will be dynamically inserted here -->
-        </div>
-        <!-- Right side: Name and Nav Links -->
+        <div id="social-links" class="flex items-center space-x-4"></div>
         <div class="flex items-center space-x-4">
           <span id="photographer-name" class="text-gray-600"></span>
           <div id="footer-links" class="flex items-center space-x-4"></div>
@@ -85,14 +75,14 @@
             &times;
           </button>
         </div>
-        <div id="about-modal-content" class="text-gray-600 prose max-w-none">
-          <!-- About text from config.json will be inserted here -->
-        </div>
+        <div
+          id="about-modal-content"
+          class="text-gray-600 prose max-w-none"
+        ></div>
       </div>
     </div>
 
     <script>
-      // --- SVG Icons for Social Links ---
       const socialIconMap = {
         twitter: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085a4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>`,
         instagram: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.441c-3.117 0-3.486.01-4.714.066-2.815.128-3.922 1.229-4.05 4.05C3.201 8.936 3.19 9.31 3.19 12s.011 3.064.066 4.286c.128 2.821 1.235 3.922 4.05 4.05 1.228.056 1.597.066 4.714.066s3.486-.01 4.714-.066c2.815-.128 3.922-1.229 4.05-4.05.055-1.222.066-1.596.066-4.286s-.011-3.064-.066-4.286c-.128-2.821-1.235-3.922-4.05-4.05C15.486 3.613 15.117 3.604 12 3.604zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zm0 1.441a2.31 2.31 0 110 4.62 2.31 2.31 0 010-4.62zM16.802 6.11a1.096 1.096 0 100 2.192 1.096 1.096 0 000-2.192z"/></svg>`,
@@ -100,40 +90,49 @@
       };
 
       function applyConfig(config) {
+        if (config.fontUrl) {
+          const link = document.createElement("link");
+          link.href = config.fontUrl;
+          link.rel = "stylesheet";
+          document.head.appendChild(link);
+        }
+        if (config.fontFamily) {
+          document.body.style.fontFamily = config.fontFamily;
+        }
+
         document.title = `${config.siteTitle} - Albums`;
         document.getElementById("photographer-name").textContent =
           config.photographerName;
 
         const footerLinksContainer = document.getElementById("footer-links");
         footerLinksContainer.innerHTML = "";
-        config.footerLinks.forEach((link) => {
-          const a = document.createElement("a");
-          a.href = link.url;
-          a.textContent = link.text;
-          a.className = "text-gray-600 hover:text-gray-900 transition-colors";
-          if (link.url === "#about") {
-            a.id = "about-link"; // Assign an ID to hook the event listener
-          }
-          footerLinksContainer.appendChild(a);
-        });
+        if (Array.isArray(config.footerLinks)) {
+          config.footerLinks.forEach((link) => {
+            const a = document.createElement("a");
+            a.href = link.url;
+            a.textContent = link.text;
+            a.className = "text-gray-600 hover:text-gray-900 transition-colors";
+            if (link.url === "#about") a.dataset.action = "open-about";
+            footerLinksContainer.appendChild(a);
+          });
+        }
 
         const socialLinksContainer = document.getElementById("social-links");
         socialLinksContainer.innerHTML = "";
-        config.socialLinks.forEach((link) => {
-          const a = document.createElement("a");
-          a.href = link.url;
-          a.title = link.name;
-          a.className = "text-gray-500 hover:text-gray-800 transition-colors";
-          a.innerHTML = socialIconMap[link.name] || "";
-          if (link.name !== "email") {
-            a.target = "_blank";
-            a.rel = "noopener noreferrer";
-          }
-          socialLinksContainer.appendChild(a);
-        });
+        if (Array.isArray(config.socialLinks)) {
+          config.socialLinks.forEach((link) => {
+            const a = document.createElement("a");
+            a.href = link.url;
+            a.title = link.name;
+            a.className = "text-gray-500 hover:text-gray-800 transition-colors";
+            a.innerHTML = socialIconMap[link.name] || "";
+            if (link.name !== "email") a.target = "_blank";
+            socialLinksContainer.appendChild(a);
+          });
+        }
 
         document.getElementById("about-modal-content").innerHTML =
-          config.aboutText;
+          config.aboutText || "";
       }
 
       function displayAlbums(portfolioData) {
@@ -165,30 +164,26 @@
 
       function setupEventListeners() {
         const aboutModal = document.getElementById("about-modal");
-        const aboutLink = document.getElementById("about-link");
-        const closeModalBtn = document.getElementById("close-about-modal-btn");
-        const backdrop = document.getElementById("about-modal-backdrop");
-
-        if (aboutLink) {
-          aboutLink.addEventListener("click", (e) => {
+        const closeAboutModal = () => {
+          aboutModal.classList.add("hidden");
+          document.body.classList.remove("modal-open");
+        };
+        document
+          .getElementById("close-about-modal-btn")
+          .addEventListener("click", closeAboutModal);
+        document
+          .getElementById("about-modal-backdrop")
+          .addEventListener("click", closeAboutModal);
+        document.body.addEventListener("click", (e) => {
+          if (e.target.dataset.action === "open-about") {
             e.preventDefault();
             aboutModal.classList.remove("hidden");
             aboutModal.classList.add("flex");
             document.body.classList.add("modal-open");
-          });
-        }
-
-        const closeAboutModal = () => {
-          aboutModal.classList.add("hidden");
-          aboutModal.classList.remove("flex");
-          document.body.classList.remove("modal-open");
-        };
-
-        closeModalBtn.addEventListener("click", closeAboutModal);
-        backdrop.addEventListener("click", closeAboutModal);
+          }
+        });
       }
 
-      // --- Initial Load ---
       document.addEventListener("DOMContentLoaded", () => {
         Promise.all([
           fetch("./config.json").then((res) => res.json()),
@@ -197,11 +192,11 @@
           .then(([configData, portfolioData]) => {
             applyConfig(configData);
             displayAlbums(portfolioData);
-            setupEventListeners(); // Set up listeners after config is applied
+            setupEventListeners();
           })
           .catch((error) => {
             console.error("Error loading site data:", error);
-            document.body.innerHTML = `<p class="text-red-500 text-center p-8"><strong>Error:</strong> Could not load site data. Please check console for details.</p>`;
+            document.body.innerHTML = `<p class="text-red-500 text-center p-8"><strong>Error:</strong> Could not load site data.</p>`;
           });
       });
     </script>

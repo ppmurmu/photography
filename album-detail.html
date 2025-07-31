@@ -6,15 +6,9 @@
     <title>Loading...</title>
     <!-- Title will be set from config.json -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- The Google Fonts link will be dynamically added here -->
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #f9fafb;
-      }
+      /* The font-family will be dynamically set here */
       .modal-open {
         overflow: hidden;
       }
@@ -34,7 +28,6 @@
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8 pb-20">
       <header id="album-header" class="mb-12"></header>
-      <!-- Responsive Grid: 2 cols on mobile, 3 on small tablet, 4 on tablet, 5 on desktop -->
       <main
         id="photo-grid"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1"
@@ -48,9 +41,7 @@
       <div
         class="container mx-auto px-4 py-3 flex justify-between items-center text-sm"
       >
-        <!-- Left side: Social Links -->
         <div id="social-links" class="flex items-center space-x-4"></div>
-        <!-- Right side: Name and Nav Links -->
         <div class="flex items-center space-x-4">
           <span id="photographer-name" class="text-gray-600"></span>
           <div id="footer-links" class="flex items-center space-x-4"></div>
@@ -58,7 +49,7 @@
       </div>
     </footer>
 
-    <!-- Image Modal -->
+    <!-- Modals -->
     <div
       id="image-modal"
       class="hidden fixed inset-0 z-50 items-center justify-center"
@@ -87,8 +78,6 @@
         </div>
       </div>
     </div>
-
-    <!-- About Modal -->
     <div
       id="about-modal"
       class="hidden fixed inset-0 z-50 items-center justify-center"
@@ -121,14 +110,22 @@
       };
 
       function applyConfig(config, albumName) {
-        // Add fallback text in case config properties are missing
+        if (config.fontUrl) {
+          const link = document.createElement("link");
+          link.href = config.fontUrl;
+          link.rel = "stylesheet";
+          document.head.appendChild(link);
+        }
+        if (config.fontFamily) {
+          document.body.style.fontFamily = config.fontFamily;
+        }
+
         document.title = `${albumName} - ${config.siteTitle || "Portfolio"}`;
         document.getElementById("photographer-name").textContent =
           config.photographerName || "";
 
         const footerLinksContainer = document.getElementById("footer-links");
         footerLinksContainer.innerHTML = "";
-        // Check if footerLinks is an array before looping to prevent errors
         if (Array.isArray(config.footerLinks)) {
           config.footerLinks.forEach((link) => {
             const a = document.createElement("a");
@@ -142,7 +139,6 @@
 
         const socialLinksContainer = document.getElementById("social-links");
         socialLinksContainer.innerHTML = "";
-        // Check if socialLinks is an array before looping
         if (Array.isArray(config.socialLinks)) {
           config.socialLinks.forEach((link) => {
             const a = document.createElement("a");
@@ -214,7 +210,6 @@
         });
       }
 
-      // --- Initial Load ---
       document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const albumName = urlParams.get("album");
