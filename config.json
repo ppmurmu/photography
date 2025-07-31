@@ -1,6 +1,8 @@
 {
   "siteTitle": "Photography Portfolio",
   "photographerName": "Your Name Here",
+  "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap",
+  "fontFamily": "'Inter', sans-serif",
   "aboutText": "This is a sample 'About Me' section. You can write a short bio, describe your work, or provide contact information here. This text is fully configurable from the config.json file, and you can use basic HTML tags like <br> for line breaks if you wish.",
   "footerLinks": [
     {
